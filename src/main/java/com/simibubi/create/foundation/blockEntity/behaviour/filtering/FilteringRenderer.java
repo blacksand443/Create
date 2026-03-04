@@ -46,8 +46,12 @@ public class FilteringRenderer {
 			return;
 
 		ClientLevel world = mc.level;
-		BlockPos pos = result.getBlockPos();
-		BlockState state = world.getBlockState(pos);
+			BlockPos pos = result.getBlockPos();
+			if (pos == null) return;
+			if (pos.getY() < world.getMinBuildHeight() || pos.getY() >= world.getMaxBuildHeight()) return;
+			if (!world.isLoaded(pos)) return;
+			BlockState state = world.getBlockState(pos);
+			if (state == null) return;
 
 		if (mc.player.isShiftKeyDown())
 			return;
